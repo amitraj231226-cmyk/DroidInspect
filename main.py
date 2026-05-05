@@ -9,6 +9,11 @@ from dashboard import banner, menu
 from pdf_report import export_pdf
 from apps import search_app
 from monitor import monitor_battery
+from wireless import enable_wireless, connect_wireless, disconnect_wireless
+from health import get_health_score
+from apk_inspector import inspect_app
+from permissions import scan_permissions
+from risk_report import generate_risk_report
 
 
 def main():
@@ -68,6 +73,46 @@ def main():
         ))
 
         elif choice == "10":
+            print(enable_wireless())
+
+        elif choice == "11":
+            ip = input("Enter device IP: ")
+            print(connect_wireless(ip))
+
+        elif choice == "12":
+            ip = input("Enter device IP: ")
+            print(disconnect_wireless(ip))
+
+        elif choice == "13":
+            score, status = get_health_score()
+            print(f"\nHealth Score: {score}/100")
+            print(f"Status: {status}")
+        
+        elif choice == "14":
+            package = input("Enter package name: ")
+            print(inspect_app(package))
+
+        elif choice == "15":
+            package = input("Enter package name: ")
+            perms = scan_permissions(package)
+
+            print("\n===== PERMISSION AUDIT =====")
+
+            for perm, status in perms.items():
+                print(f"{perm}: {status}")
+        
+        elif choice == "16":
+            report = generate_risk_report()
+
+            print("\n===== PERMISSION RISK REPORT =====\n")
+
+            for app in report:
+                print(f"{app['package']}")
+                print(f"Risk: {app['risk']}")
+                print(f"Score: {app['score']}")
+                print("-" * 30)
+
+        elif choice == "17":
             break
 
         else:
